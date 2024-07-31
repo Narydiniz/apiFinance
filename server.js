@@ -26,17 +26,18 @@ app.use(bodyParser.json()); // Configura o body-parser para analisar requisiçõ
 
 //Usar rotas e transições para toda as requisições que começam com /api/trasactions
 
-app.use('./api/transactions',transactionRoutes);
+app.use('/api/transactions',transactionRoutes);
 
 //Rota inicial para testar o servidor
 
 app.get('/', (req, res) => {
-    res.send('Servidor está rodando'); // Define uma rota inicial para testar o servidor
+    res.send(`Servidor está rodando ${PORT}`); // Define uma rota inicial para testar o servidor
   });
 
 //Configurar o servidor para uma porta específica
 
 const PORT = process.env.PORT || 3000; // Define a porta a partir da variável de ambiente ou usa a porta 3000 como padrão
 app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`); // Loga uma mensagem informando que o servidor está rodando
+  console.log(`Servidor rodando na porta ${PORT}`
+  ); // Loga uma mensagem informando que o servidor está rodando
 });

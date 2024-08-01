@@ -53,16 +53,51 @@ const updateTransactionPut = (req,res) => {
 
 };
 
-// Função para atualizar uma transação existente (subtituição parcial)
-// const updateTransactionPatch = (req,res) => {
-//     const{id} = req.params;
-// }
-    
+//Função para atualizar uma transação existente (subtituição parcial)
+const updateTransactionPatch = (req,res) => {
+    const{id} = req.params;
+    const fields = req.body;
+    const query = [];
+    const values = [];
 
+    for (const[key,value] of Object.entries(fields)){
+        query.push(`${key} = ?`);
+        values.push(value);
+    }
+    
+values.push(id);
+db.query(
+    `Update transactions SET ${query.join(',')} WHERE id = ?`,
+     values,
+     (err, results) => {
+        if(err){
+            console.error('Erro ao adicionar transação', err);
+            res.status(500).send('Erro ao adicionar transação');
+            return;
+        }
+        res.send('Transação atualizada com sucesso');
+    }
+)
+};
+
+const deleteTransactions = (req,res) => {
+const{id} = req.params;
+db.query('DELETE FROM transactions WHERE id =?', [id],
+    (err, results) => {
+        if(err){
+            console.error('Erro ao deletar transação', err);
+            res.status(500).send('Erro ao deletar transação');
+            return;
+        }
+        res.send('Transação deletada com sucesso');
+    }
+);
+};
 
 module.exports = {
     getAllTransactions,
     addTransaction,
     updateTransactionPut,
-    updateTransactionPatch
+    updateTransactionPatch,
+    deleteTransactions
 };

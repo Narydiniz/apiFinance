@@ -1,6 +1,6 @@
-const express= require('express'); // Importar a framework express
-const router = express.Router(); //Criar um roteador
-const transactionsController = require('../controllers/transactionsController'); // Importa o controlador 
+const express = require('express'); // Importa o framework Express
+const router = express.Router(); // Cria um novo roteador
+const transactionsController = require('../controllers/transactionsController'); // Importa o controlador de transações
 
 const authMiddleware = require('../middlewares/authMiddleware'); // Importa o middleware de autenticação 
 
@@ -19,9 +19,9 @@ router.patch('/:id', authMiddleware, transactionsController.updateTransactionPat
 
 
 //Definindo uma rota para deletar uma transação
-router.delete('/:id', authMiddleware, transactionsController.deleteTransactions);
-
-//Exportando o roteador
+router.delete('/:id', authMiddleware, transactionsController.deleteTransaction);
 
 
+
+// Exportando o roteador
 module.exports = router;

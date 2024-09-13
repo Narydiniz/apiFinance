@@ -1,4 +1,3 @@
-// Importar as bibliotecas
 const dotenv = require('dotenv'); // Importa o pacote dotenv para gerenciar variáveis de ambiente
 
 //Configurar as Variáveis de ambiente
@@ -12,8 +11,11 @@ const bodyParser = require('body-parser'); // Importa o pacote body-parser para 
 
 const db = require('./config/db'); // Importa a conexão com o banco de dados
 
-const transactionRoutes = require('./routes/transactions'); // Importa rotas e transações
+// Importar as rotas de transações e autenticação 
+
+const transactionsRoutes = require('./routes/transactions'); // Importa as rotas de transações 
 const authRoutes = require('./routes/auth'); // Importa as rotas de autenticação 
+
 
 //inicializar nova aplicação Express
 
@@ -25,21 +27,21 @@ const app = express(); // Inicializa uma nova aplicação Express
 app.use(cors()); // Habilita o CORS para todas as rotas
 app.use(bodyParser.json()); // Configura o body-parser para analisar requisições JSON
 
-//Usar rotas e transições para toda as requisições que começam com /api/trasactions
 
-app.use('/api/transactions',transactionRoutes);
+// Usar as rotas de transações e autenticação para as requisições 
+app.use('/api/transactions', transactionsRoutes); // Configura o servidor para usar as rotas de transações 
 app.use('/api/auth', authRoutes); // Configura o servidor para usar as rotas de autenticação
+
 
 //Rota inicial para testar o servidor
 
 app.get('/', (req, res) => {
-    res.send(`Servidor está rodando ${PORT}`); // Define uma rota inicial para testar o servidor
-  });
+  res.send(`Servidor está rodando na porta ${PORT}`); // Define uma rota inicial para testar o servidor
+});
 
 //Configurar o servidor para uma porta específica
 
 const PORT = process.env.PORT || 3000; // Define a porta a partir da variável de ambiente ou usa a porta 3000 como padrão
 app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`
-  ); // Loga uma mensagem informando que o servidor está rodando
+  console.log(`Servidor rodando na porta ${PORT}`); // Loga uma mensagem informando que o servidor está rodando
 });

@@ -1,3 +1,4 @@
+
 const dotenv = require('dotenv'); // Importa o pacote dotenv para gerenciar variáveis de ambiente
 
 //Configurar as Variáveis de ambiente
@@ -28,6 +29,9 @@ app.use(cors()); // Habilita o CORS para todas as rotas
 app.use(bodyParser.json()); // Configura o body-parser para analisar requisições JSON
 
 
+//Servir arquivos estático da pasta "public"
+app.use(express.static('public'));
+
 // Usar as rotas de transações e autenticação para as requisições 
 app.use('/api/transactions', transactionsRoutes); // Configura o servidor para usar as rotas de transações 
 app.use('/api/auth', authRoutes); // Configura o servidor para usar as rotas de autenticação
@@ -36,8 +40,9 @@ app.use('/api/auth', authRoutes); // Configura o servidor para usar as rotas de 
 //Rota inicial para testar o servidor
 
 app.get('/', (req, res) => {
-  res.send(`Servidor está rodando na porta ${PORT}`); // Define uma rota inicial para testar o servidor
-});
+    //res.send(`Servidor está rodando na porta ${PORT}`); // Define uma rota inicial para testar o servidor
+    res.sendFile(__dirname + '/public/index.html')
+  });
 
 //Configurar o servidor para uma porta específica
 

@@ -40,9 +40,34 @@
             <div>
                 <a href="registrar.html"><button type="button" class="btn">Registrar</button></a>
             </div>
-        </div>
+    </div>
+
     </form>
 
+    <script src="api.js"></script>
+    <script>
+        document.querySelector('#loginForm').addEventListener('submit', async(event)=>{
+            event.preventDefault() //impede o envio do formulario padrão
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            //Verificar se  s campos estão preenchidos
+            if(!email ||  !password){
+                alert('Por favor, preencha todos os campos')
+                return;
+            }
+
+            const result = await login(email, password);
+
+            if (result.success){
+                localStorage.setItem('token', result.token); //Armazen o token
+                window.location.href= 'sisfsgpe.html' // Redireciona para  a pagina principal
+            }else{
+                //Exibir mensagem de erro baseada na resposta da API
+                alert(result.message || 'Login falhou! Verifique suas credenciais.')
+            }
+        });
+    </script>
     
 </body>
 </html>

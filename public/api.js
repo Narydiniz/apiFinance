@@ -1,42 +1,36 @@
+// Define a URL base da API como 'http://localhost:3000/api'.
 const API_URL = 'http://localhost:3000/api';
 
-//Função para realozar o login 
-async function login(email,password){
-    const response = await fetch(`${API_URL}/auth/login`,{
-        method: 'post',
+// Função assíncrona para fazer login do usuário.
+// Recebe o 'email' e 'password' como parâmetros.
+async function login(email, password) {
+    try {
+        // Exibe no console os dados de login que serão enviados ao servidor.
+        console.log('Enviando dados para login:', { email, password });
         
-        headers:{
-            'content-type': 'application/json'
-        },
-        body: JSON.stringify({email,password})
-    });
-    return response.json();
-} 
+        // Envia uma requisição POST à API na rota '/auth/login'.
+        // A requisição inclui um cabeçalho para indicar que o conteúdo é JSON e envia o 'email' e 'password' no corpo da requisição.
+        const response = await fetch(`${API_URL}/auth/login`, {
+            method: 'POST', // Define o método HTTP como POST.
+            headers: {
+                'Content-Type': 'application/json' // Informa que o corpo da requisição está no formato JSON.
+            },
+            body: JSON.stringify({ email, password }) // Converte os dados de login para o formato JSON e envia no corpo da requisição.
+        });
 
-//Função para registar um novo usuario
-
-async function login(nome,email,password, birth_date){
-    const response = await fetch(`${API_URL}/auth/register`,{
-        method: 'post',
+        // Aguarda e converte a resposta do servidor para JSON.
+        const result = await response.json();
         
-        headers:{
-            'content-type': 'application/json'
-        },
-        body: JSON.stringify({nome,email,password, birth_date})
-    });
-    return response.json();
-} 
-
-//Função para obter todas as transações para rota segura
-
-async function getAllTransactions() {
-    const response = await fetch(`${API_URL}/auth/transactions`,{
-        method: 'get',
+        // Exibe no console a resposta recebida do servidor.
+        console.log('Resposta do servidor para login:', result);
         
-        headers:{
-            'Authorization': `bearer ${localStorage.getItem('token')}` //Se precisar de autenticação 
-        }
-       
-    });
-    return response.json();
-} 
+        // Retorna o resultado da requisição.
+        return result;
+    } catch (error) {
+        // Captura qualquer erro que ocorra durante a requisição e exibe no console.
+        console.error('Erro ao fazer login:', error);
+        
+        // Retorna um objeto com 'success: false' indicando que o login falhou.
+        return { success: false };
+    }
+}

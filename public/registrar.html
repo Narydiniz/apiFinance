@@ -43,6 +43,30 @@
             </form>
         </div>
 
-        
+        <script src="api.js"></script>
+
+
+        <script>
+            document.querySelector('#registrationForm').addEventListener('submit', async (event)=>{
+                event.preventDefault()
+
+                const name = document.getElementById('name'). value;
+                const email = document.getElementById('email'). value;
+                const password = document.getElementById('password'). value;
+                const birthdate = document.getElementById('dob'). value;
+                const result = await register(name , email , password , birthdate)
+
+                if(result.success){
+                    alert('Registro bem- sucedido!');
+
+                    document.getElementById('registrationForm').reset()
+
+                    window.location.href = 'login.html'
+                }
+                else{
+                    alert('Registro falhou, tente novamente!');
+                }
+            });
+        </script>
     </body>
 </html>

@@ -33,14 +33,68 @@
                 </tbody>
             </table>
             <div>
-                <button class="btn" type="button">Editar</button>
-                <button class="btn" type="button">Adicionar</button>
-                <button class="btn" type="button">Remover</button>
-                <button class="btn" type="button">Sair</button>
+                <button class="btn" id="editarBtn">Editar</button>
+                <button class="btn" id="adicionarBtn">Adicionar</button>
+                <button class="btn" id="removerBtn">Remover</button>
+                <button class="btn" id="sairBtn">Sair</button>
             </div>
         </div>
 
-        
+        <script src="api.js"></script>
+
+        <script>
+            async function carregarTransacoes(){
+                const token = localStorage.getItem('token')
+                console.log ('token armazenado:', token);
+
+                const transacoes = await  getTransactions();
+                console.log('Transaçoes carregadas', transacoes);
+
+                const tbody = document.getElementById('transacoesTableBody');
+
+                tbody.innerHTML = ''
+
+                if (transacoes ===0){
+                    console.error('Nemhuma transação encontrada')
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = '<td colspan ="5"> Nenhuma transação encontrada.</td>';
+                    tbody.appendChild(tr);
+                    return;
+                }
+                
+                transacoes.forEach(transacao =>{
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                    <td>${new Date(transacao.date).toLocaleDateString()}</td>
+                    <td>${(transacao.amount)}</td>   
+                    <td>${(transacao.description)}</td> 
+                    <td>${(transacao.category)}</td> 
+                    <td>${(transacao.account)}</td>                  
+                    `;
+                    tbody.appendChild(tr);
+                    
+                });
+            }
+
+            document.getElementById('sairBtn').addEventListener('click',()=>{
+                localStorage.removeItem('token');
+                window.location.href = 'login.html';
+            });
+
+            document.getElementById('editarBtn').addEventListener('click',()=>{
+                window.location.href = 'sisfsgpeupdate.html';
+            });
+            
+            document.getElementById('adicionarBtn').addEventListener('click',()=>{
+                window.location.href = 'sisfsgpeadd.html';
+            });
+
+            document.getElementById('removerBtn').addEventListener('click',()=>{
+                window.location.href = 'sisfsgpedelete.html';
+            });
+
+            document.addEventListener('DOMContentLoaded', carregarTransacoes)
+        </script>
         
     </body>
 </html>

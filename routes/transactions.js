@@ -5,7 +5,7 @@ const authMiddleware = require('../middlewares/authMiddleware'); // Importa o 'a
 
 
 // Definindo uma rota para obter todas as transações
-router.get('/',transactionsController.getAllTransactions);
+router.get('/', authMiddleware, transactionsController.getAllTransactions);
 
 
 //Definindo uma rota para adicionar uma nova transação
